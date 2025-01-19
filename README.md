@@ -7,8 +7,6 @@
 This repository contains the code, datasets models used in our paper:
  **"Parametric Retrieval-Augmented Generation"**.
 
-------
-
 #### What is Parametric RAG?
 
 Parametric RAG introduces a new paradigm for retrieval-augmented generation by embedding external knowledge directly into the parametric space of Large Language Models (LLMs). This approach overcomes the limitations of traditional in-context RAG methods by:
@@ -16,8 +14,6 @@ Parametric RAG introduces a new paradigm for retrieval-augmented generation by e
 - Reducing computational overhead by avoiding large context windows.
 
 - Deeply integrating external knowledge into the Feed-Forward Networks (FFN) of LLMs for improved reasoning and synthesis.
-
-------
 
 #### What’s Included?
 
@@ -91,8 +87,8 @@ python3 src/augment.py \
 | --- | --- | 
 | `model_name` | `llama3.2-1b-instruct`, `qwen2.5-1.5b-instruct`, `llama3-8b-instruct` |
 | `dataset` | `2wikimultihopqa`, `hotpotqa`, `popqa`, `complexwebquestions` |
-| `data_path` | `folder to the saved data` |
-| `sample` | only augment the first {sample} questions |
+| `data_path` | folder to the saved data |
+| `sample` | only augment the first `{sample}` questions |
 | `topk` | retrieval number |
 
 The results of data augmentation will be stored in the file `data_aug/{dataset}/{data_type}.json`.
