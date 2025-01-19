@@ -1,0 +1,17 @@
+dataset,md5
+msmarco.zip,444067daf65d982533ea17ebd59501e4
+trec-covid.zip,ce62140cb23feb9becf6270d0d1fe6d1
+nfcorpus.zip,a89dba18a62ef92f7d323ec890a0d38d
+nq.zip,d4d3d2e48787a744b6f6e691ff534307
+hotpotqa.zip,f412724f78b0d91183a0e86805e16114
+fiqa.zip,17918ed23cd04fb15047f73e6c3bd9d9
+arguana.zip,8ad3e3c2a5867cdced806d6503f29b99
+webis-touche2020.zip,6e29ac6c57e2d227fb57501872cac45f
+cqadupstack.zip,4e41456d7df8ee7760a7f866133bda78
+quora.zip,18fb154900ba42a600f84b839c173167
+dbpedia-entity.zip,c2a39eb420a3164af735795df012ac2c
+scidocs.zip,38121350fc3a4d2f48850f6aff52e4a9
+fever.zip,5f7d1de60b170fc8027bb7898e2efca1
+climate-fever.zip,8b66f0a9126c521bae2bde127b4dc99d
+scifact.zip,5f7d1de60b170fc8027bb7898e2efca1
+germanquad.zip,95a581c3162d10915a418609bcce851b
