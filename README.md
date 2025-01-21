@@ -33,7 +33,7 @@ In the following GitHub repository, we demonstrate how to test the performance o
 ```
 conda create -n prag python=3.10.4
 conda activate prag
-pip install torch==1.13.1
+pip install torch==2.1.0
 pip install -r requirements.txt
 ```
 
@@ -45,7 +45,7 @@ You can directly use the pre-augmented data file `data_aug.tar.gz`. To extract i
 
 If you want to perform data augmentation yourself, please process it as follows.
 
-Prepare BM25 for retrieval
+#### Prepare BM25 for retrieval
 
 1. Download the Wikipedia dump from the [DPR repository](https://github.com/facebookresearch/DPR/blob/main/dpr/data/download_data.py#L32) using the following command
 
@@ -70,9 +70,33 @@ cd ../..
 python prep_elastic.py --data_path data/dpr/psgs_w100.tsv --index_name wiki  # build index
 ```
 
-[TODO] Dowload dataset, and save to path `data/{dataset_name}`.
+#### Download dataset
 
-Data Augmentation:
+For 2WikiMultihopQA:
+
+Download the [2WikiMultihopQA](https://www.dropbox.com/s/ms2m13252h6xubs/data_ids_april7.zip?e=1) dataset from its repository <https://www.dropbox.com/s/ms2m13252h6xubs/data_ids_april7.zip?e=1>. Unzip it and move the folder to `data/2wikimultihopqa`.
+
+For HotpotQA:
+
+```bash
+mkdir -p data/hotpotqa
+wget -P data/hotpotqa/ http://curtis.ml.cmu.edu/datasets/hotpot/hotpot_dev_distractor_v1.json
+```
+
+For PopQA:
+
+Download the [PopQA](https://github.com/AlexTMallen/adaptive-retrieval?tab=readme-ov-file#popqa) dataset from its repository <https://github.com/AlexTMallen/adaptive-retrieval/blob/main/data/popQA.tsv>, and put the file `popQA.tsv` into folder `data/popqa`.
+
+```bash
+mkdir -p data/popqa
+wget -P data/popqa https://github.com/AlexTMallen/adaptive-retrieval/blob/main/data/popQA.tsv
+```
+
+For ComplexWebQuestions:
+
+Download the [ComplexWebQuestions](https://www.tau-nlp.sites.tau.ac.il/compwebq) dataset from its repository <https://www.dropbox.com/scl/fo/nqujvpg2gc4y0ozkw3wgr/AOzjVEsdUhv2Fx2pamfJlSw?rlkey=746t7xehfqxf1zr867nxiq8aq&e=1>, and put the file `ComplexWebQuestions_dev.json` into folder `data/complexwebquestions`.
+
+#### Data Augmentation:
 
 ```bash
 python3 src/augment.py \
@@ -83,14 +107,94 @@ python3 src/augment.py \
     --topk 3
 ```
 
-| `parameter` | `example/options` |
-| --- | --- | 
+| **Parameter** | **Example/Options** |
+| ------------------------------ | ---------------------------------------------------- |
 | `model_name` | `llama3.2-1b-instruct`, `qwen2.5-1.5b-instruct`, `llama3-8b-instruct` |
 | `dataset` | `2wikimultihopqa`, `hotpotqa`, `popqa`, `complexwebquestions` |
-| `data_path` | folder to the saved data |
-| `sample` | only augment the first `{sample}` questions |
+| `data_path` | folder to the saved data, such as `data/2wikimultihopqa` |
+| `sample` | Number of questions to run |
 | `topk` | retrieval number |
 
 The results of data augmentation will be stored in the file `data_aug/{dataset}/{data_type}.json`.
 
-[TODO] Own dataset
+If you want to apply data augmentation to a new dataset, the default data format for the augmented data is JSON. Each element in the array should include both a 'question' and an 'answer,' as shown in the example below.
+
+```json
+[
+    {
+        "question": "string",
+        "answer": "string or list[string]",
+    }
+]
+```
+
+At this point, the input parameter `dataset` refers to the name of the dataset you’ve set, and `data_path` is the path to the JSON file mentioned above. The last filename in `data_path` will be treated as the `data_type`. The output file will be saved in `data_aug/{your_dataset_name}/{data_type}.json`.
+
+## Document Parameterizing
+
+By calling the `src/encode.py` file, you will generate a parameterized representation of the documents (LoRA) for the given dataset. The parameters for this file are as follows:
+
+| **Parameter**                  | **Example/Options**                                  |
+| ------------------------------ | ---------------------------------------------------- |
+| `model_name`                   | `llama3.2-1b-instruct`, `qwen2.5-1.5b-instruct`, `llama3-8b-instruct` |
+| `dataset`                      | `2wikimultihopqa`, `hotpotqa`, `popqa`, `complexwebquestions` |
+| `data_type`                    | Not set means using the entire dataset, otherwise, specify a particular data type |
+| `with_cot`                     | If included, generate a CoT |
+| `sample`                        | Number of questions to run |
+| `augment_model`                | Model used for data augmentation. If not set, the current model will be used for augmentation |
+| `per_device_train_batch_size`, `num_train_epochs`, `learning_rate` | Training parameters |
+| `lora_rank`, `lora_alpha`       | LoRA parameters, dropout will be set to 0 |
+
+When running for the first time with a specific LoRA parameter, an initial random parameter, `base_weight` will be created. All subsequent training will start from this base_weight.
+
+All generated parameters are stored in the `offline` folder. 
+The specific location of the parameter files is as follows:
+
+```plain
+offline/
+├── {model_name}/
+│   └── rank={lora_rank}_alpha={lora_alpha}/
+│       ├── base_weight/
+│       └── {dataset}/
+│           └── lr={learning_rate}_epoch={num_train_epochs}/
+│               └── aug_model={augment_model}/
+│                   └── {data_type}/
+│                       └── data_{did}/
+│                           └── passage_{pid}/
+|                               └── parameters
+```
+
+The running parameters of the main experiments in the paper are listed in the `configs` folder.
+
+## Generate
+
+By calling the `src/inference.py` file, you will generate a parameterized representation of the documents (LoRA) for the given dataset. The parameters for this file are as follows:
+
+| **Parameter**                  | **Example/Options**                                  |
+| ------------------------------ | ---------------------------------------------------- |
+| `model_name`                   | `llama3.2-1b-instruct`, `qwen2.5-1.5b-instruct`, `llama3-8b-instruct` |
+| `dataset`                      | `2wikimultihopqa`, `hotpotqa`, `popqa`, `complexwebquestions` |
+| `data_type`                    | Not set means using the entire dataset, otherwise, specify a particular data type |
+| `with_cot`                     | If included, generate a CoT |
+| `sample`                        | Number of questions to run |
+| `augment_model`                | Model used for data augmentation. If not set, the current model will be used for augmentation |
+| `per_device_train_batch_size`, `num_train_epochs`, `learning_rate` | Training parameters |
+| `lora_rank`, `lora_alpha`       | LoRA parameters, dropout will be set to 0 |
+| `max_new_tokens` | Number of generate tokens |
+| `inference_method` | "icl" is naive RAG, "prag" is our method, and "combine" is using both methods together |
+
+All generated results are stored in the `output` folder. The specific location of the parameter files is as follows:
+
+```plain
+offline/
+├── {model_name}/
+│   └── rank={lora_rank}_alpha={lora_alpha}/
+│       └── {dataset}/
+│           └── lr={learning_rate}_epoch={num_train_epochs}/
+│               └── aug_model={augment_model}/
+│                   └── {inference_method}/
+│                       └── {data_type}/
+│                           ├── config.json
+│                           ├── predict.json
+│                           └── result.txt
+```

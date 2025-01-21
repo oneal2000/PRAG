@@ -73,7 +73,7 @@ def main(args):
                 return pred
 
             if args.inference_method == "icl":
-                ret.append(get_pred(model))
+                ret.append(get_pred(model, psgs=passages))
             else:
                 for pid in range(len(passages)):
                     adapter_path = os.path.join(load_adapter_path, filename, f"data_{test_id}", f"passage_{pid}")
@@ -108,7 +108,7 @@ def main(args):
         ret_str = ""
         for met in metrics:
             acc = sum(float(d[met]) for d in ret) / len(ret)
-            acc = float(acc, 4)
+            acc = round(acc, 4)
             ret_str += f"{met}\t{acc}\n"
         ret_str += "\n" + json.dumps(vars(args), indent=4)
         with open(os.path.join(output_dir, "result.txt"), "w") as fout:
@@ -132,5 +132,7 @@ if __name__ == "__main__":
     parser.add_argument("--lora_alpha", type=int)
     args = parser.parse_args()
     assert args.lora_rank and args.lora_alpha, "No Config for LoRA"
+    if args.augment_model is None:
+        args.augment_model = args.model_name
     print(args)
     main(args)

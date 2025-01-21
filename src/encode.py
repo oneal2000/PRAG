@@ -93,7 +93,7 @@ def get_train_data(aug_model, augments, tokenizer, args):
 
 def train(question, augments, args, model, tokenizer, 
           init_adapter_path, save_path):
-    prompt_ids = get_train_data(question, augments, tokenizer, args)
+    prompt_ids = get_train_data(args.augment_model, augments, tokenizer, args)
     train_data = TrainingData(prompt_ids, tokenizer)
     train_dataloader = torch.utils.data.DataLoader(
         train_data,

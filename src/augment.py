@@ -1,6 +1,3 @@
-# 数据增强大集结版本
-# 读入数据、BM25、翻译、QA生成 大一统
-
 import os
 import json
 import random
@@ -222,7 +219,7 @@ def main(args):
         with open(os.path.join(output_dir, "total.json"), "w") as fout:
             json.dump(load_dataset["total"][:args.sample], fout, indent=4)
     
-    model, tokenizer = get_model(args.model_name)
+    model, tokenizer, _ = get_model(args.model_name)
     generation_config = dict(
         max_new_tokens=512,
         return_dict_in_generate=True,
@@ -233,7 +230,10 @@ def main(args):
 
     for filename, dataset in solve_dataset.items():
         print(f"### Solving {filename} ###")
-        output_file = os.path.join(output_dir, filename + ".json")
+        output_file = os.path.join(
+            output_dir, 
+            filename if filename.endswith(".json") else filename + ".json"
+        )
         ret = []
         dataset = dataset[:args.sample]
         pbar = tqdm(total = args.sample * args.topk)
