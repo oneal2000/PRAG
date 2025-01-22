@@ -11,8 +11,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from root_dir_path import ROOT_DIR
 from prompt_template import get_prompt
 
-DATA_ROOT_DIR = f"{ROOT_DIR}/data_aug/"
-DATA_BASE_ROOT = f"{ROOT_DIR}/data"
+DATA_ROOT_DIR = os.path.join(ROOT_DIR, "data_aug")
 
 class BaseDataset:
     @classmethod

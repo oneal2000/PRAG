@@ -5,7 +5,7 @@ python3 src/encode.py \
     --per_device_train_batch_size=1 \
     --num_train_epochs=1 \
     --learning_rate=0.0003 \
-    --lora_rank=8 \
+    --lora_rank=2 \
     --lora_alpha=32 
 
 python3 src/inference.py \
@@ -14,7 +14,7 @@ python3 src/inference.py \
     --sample=300 \
     --num_train_epochs=1 \
     --learning_rate=0.0003 \
-    --lora_rank=8 \
+    --lora_rank=2 \
     --lora_alpha=32 \
     --max_new_tokens=20 \
     --inference_method=combine 

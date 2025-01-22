@@ -13,7 +13,7 @@ random.seed(42)
 
 
 def load_popqa(data_path):
-    data_path += "popQA.tsv"
+    data_path = os.path.join(data_path, "popQA.tsv")
     dataset = pd.read_csv(data_path, sep="\t")
     new_dataset = []
     for did in range(len(dataset)):
@@ -30,7 +30,7 @@ def load_popqa(data_path):
 
 
 def load_complexwebquestions(data_path):
-    data_path += "ComplexWebQuestions_dev.json"
+    data_path = os.path.join(data_path, "ComplexWebQuestions_dev.json")
     with open(data_path, "r") as fin:
         dataset = json.load(fin)
     new_dataset = []
@@ -52,9 +52,9 @@ def load_complexwebquestions(data_path):
 
 
 def load_2wikimultihopqa(data_path):
-    with open(data_path + "dev.json", "r") as fin:
+    with open(os.path.join(data_path, "dev.json"), "r") as fin:
         dataset = json.load(fin)
-    with open(data_path + "id_aliases.json", "r") as fin:
+    with open(os.path.join(data_path, "id_aliases.json"), "r") as fin:
         aliases = dict()
         for li in fin:
             t = json.loads(li)
@@ -86,7 +86,7 @@ def load_2wikimultihopqa(data_path):
 
 
 def load_hotpotqa(data_path):
-    data_path += "hotpot_dev_distractor_v1.json"
+    data_path = os.path.join(data_path, "hotpot_dev_distractor_v1.json")
     with open(data_path, "r") as fin:
         dataset = json.load(fin)
     new_dataset = []

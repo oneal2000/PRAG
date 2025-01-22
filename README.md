@@ -28,6 +28,8 @@ In the following GitHub repository, we demonstrate how to test the performance o
 - **Generate Parametric Representations of Documents**: This step corresponds to Section 3.2.2 *Additional Parameter Training* in the original paper, where additional LoRA parameters are trained.
 - **Inference**: Merge the parametric representations of relevant documents, insert them into the LLM, and use the updated LLM for inference.
 
+All the prompts used in the experiment are displayed in the `all_prompt.md` file.
+
 ### Install Environment
 
 ```
@@ -99,7 +101,7 @@ Download the [ComplexWebQuestions](https://www.tau-nlp.sites.tau.ac.il/compwebq)
 #### Data Augmentation:
 
 ```bash
-python3 src/augment.py \
+python src/augment.py \
     --model_name llama3.2-1b-instruct \
     --dataset 2wikimultihopqa \
     --data_path data/2wikimultihopqa/ \
@@ -197,4 +199,34 @@ offline/
 │                           ├── config.json
 │                           ├── predict.json
 │                           └── result.txt
+```
+
+## Warm up LoRA
+
+After calling `python src/get_warmup_data.py`, the initialization training data for finetuning will be generated from the **latter** part of the dataset. The data generation code ensures that there is no data leakage. 
+
+Then, the following code will be used to train and generate two base LoRA weights:
+
+
+```bash
+# the training used 600 data points 
+python src/warmup_lora.py \
+    --model_name llama3.2-1b-instruct \
+    --per_device_train_batch_size 1 \
+    --num_train_epochs 1 \
+    --learning_rate 3e-4  \
+    --block_size 3000 \
+    --lora_rank 2 \
+    --lora_alpha 32 \
+    --with_cot 
+    
+# the training used 2000 data points  
+python src/warmup_lora.py \
+    --model_name llama3.2-1b-instruct \
+    --per_device_train_batch_size 1 \
+    --num_train_epochs 1 \
+    --learning_rate 3e-4  \
+    --lora_rank 2 \
+    --lora_alpha 32 \
+    --block_size 3000  
 ```

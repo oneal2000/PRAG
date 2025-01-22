@@ -1,8 +1,9 @@
+import os
 from root_dir_path import ROOT_DIR
 
 current_dataset = None
 fewshot = None
-fewshot_path = f"{ROOT_DIR}/src/fewshot/"
+fewshot_path = os.path.join(ROOT_DIR, "src", "fewshot")
 
 USER_PROMPT = "You should answer the question by referring to the knowledge provided below and integrating your own knowledge.\n\
 {passages}\n\n\
@@ -46,7 +47,7 @@ def get_fewshot(dataset):
     if dataset.endswith("_golden"):
         dataset = dataset.split("_golden")[0]
     current_dataset = dataset
-    with open(fewshot_path + dataset + ".json", "r") as fin:
+    with open(os.path.join(fewshot_path, dataset + ".json"), "r") as fin:
         tmp = json.load(fin)
     fewshot = ""
     for data in tmp:
