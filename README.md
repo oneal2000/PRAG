@@ -132,7 +132,7 @@ If you want to apply data augmentation to a new dataset, the default data format
 
 At this point, the input parameter `dataset` refers to the name of the dataset you’ve set, and `data_path` is the path to the JSON file mentioned above. The last filename in `data_path` will be treated as the `data_type`. The output file will be saved in `data_aug/{your_dataset_name}/{data_type}.json`.
 
-## Document Parameterizing
+### Document Parameterizing
 
 By calling the `src/encode.py` file, you will generate a parameterized representation of the documents (LoRA) for the given dataset. The parameters for this file are as follows:
 
@@ -168,7 +168,7 @@ offline/
 
 The running parameters of the main experiments in the paper are listed in the `configs` folder.
 
-## Generate
+### Generate
 
 By calling the `src/inference.py` file, you will generate a parameterized representation of the documents (LoRA) for the given dataset. The parameters for this file are as follows:
 
@@ -201,6 +201,8 @@ offline/
 │                           └── result.txt
 ```
 
+Also, the running parameters of the main experiments in the paper are listed in the `configs` folder.
+
 ## Warm up LoRA
 
 After calling `python src/get_warmup_data.py`, the initialization training data for finetuning will be generated from the **latter** part of the dataset. The data generation code ensures that there is no data leakage. 
@@ -219,7 +221,7 @@ python src/warmup_lora.py \
     --lora_rank 2 \
     --lora_alpha 32 \
     --with_cot 
-    
+
 # the training used 2000 data points  
 python src/warmup_lora.py \
     --model_name llama3.2-1b-instruct \
