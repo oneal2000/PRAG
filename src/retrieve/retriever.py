@@ -9,11 +9,9 @@ import faiss
 # import logging
 import pandas as pd
 from transformers import AutoTokenizer, AutoModel
-import sys
-sys.path.append('/liuzyai04/thuir/tyc/DAN/new_data_augment')
-from retrieve.beir.beir.retrieval.evaluation import EvaluateRetrieval
-from retrieve.beir.beir.retrieval.search.lexical import BM25Search
-from retrieve.beir.beir.retrieval.search.lexical.elastic_search import ElasticSearch
+from src.retrieve.beir.beir.retrieval.evaluation import EvaluateRetrieval
+from src.retrieve.beir.beir.retrieval.search.lexical import BM25Search
+from src.retrieve.beir.beir.retrieval.search.lexical.elastic_search import ElasticSearch
 
 # logging.basicConfig(level=logging.INFO) 
 # logger = logging.getLogger(__name__)
