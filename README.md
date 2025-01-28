@@ -1,11 +1,19 @@
 # Parametric RAG
 
+
+
+![Overall Analysis](assets/overall.png)
+
+
+
 ## Overview
 
 **Welcome to the Official Repository of Parametric Retrieval-Augmented Generation (Parametric RAG)!**
 
 This repository contains the code, datasets models used in our paper:
  **"Parametric Retrieval-Augmented Generation"**.
+
+
 
 #### What is Parametric RAG?
 
@@ -131,6 +139,12 @@ If you want to apply data augmentation to a new dataset, the default data format
 ```
 
 At this point, the input parameter `dataset` refers to the name of the dataset you’ve set, and `data_path` is the path to the JSON file mentioned above. The last filename in `data_path` will be treated as the `data_type`. The output file will be saved in `data_aug/{your_dataset_name}/{data_type}.json`.
+
+
+
+![Methodology](assets/method.png)
+
+
 
 ### Document Parameterizing
 
