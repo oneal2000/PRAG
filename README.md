@@ -15,6 +15,10 @@ This repository contains the code, datasets models used in our paper:
 
 
 
+**If you find our project interesting or helpful, we would sincerely appreciate it if you could give us a star! Your support is a tremendous encouragement to us!**
+
+
+
 #### What is Parametric RAG?
 
 Parametric RAG introduces a new paradigm for retrieval-augmented generation by embedding external knowledge directly into the parametric space of Large Language Models (LLMs). This approach overcomes the limitations of traditional in-context RAG methods by:
