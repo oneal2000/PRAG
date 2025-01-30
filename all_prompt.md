@@ -44,7 +44,13 @@ Passage:
 
 ## Prompt for Experimental Datasets
 
-The following examples all use the chat template of Qwen2.5-1.5B-Instruct and the first question from the dataset to generate the prompt.
+Following prior works such as FLARE, DRAGIN, SEAKR, and DRAD, we adopt the few-shot prompting template introduced in IR-CoT, which includes exemplars to guide the reasoning process of LLMs. However, IR-CoT only provides prompt templates with few-shot examples for 2WikiMultihopQA and HotpotQA. Consequently, to be consistent with previous works, we employ the same few-shot prompting strategy for these two datasets.
+
+In contrast, IR-CoT does not provide predefined few-shot templates for PopQA and ComplexWebQuestions. We use zero-shot prompting for these datasets to ensure a fair comparison without introducing dataset-specific prompt engineering.
+
+**Furthermore, we ensured that P-RAG and all the baselines share the same prompt template within each dataset, ensuring a fair evaluation.**
+
+
 
 ### 2WikiMultihopQA
 Description of the prompts designed specifically for 2WikiMultihopQA dataset tasks.
