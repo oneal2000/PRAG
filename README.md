@@ -27,6 +27,12 @@ Parametric RAG introduces a new paradigm for retrieval-augmented generation by e
 
 - Deeply integrating external knowledge into the Feed-Forward Networks (FFN) of LLMs for improved reasoning and synthesis.
 
+
+
+**Although we leverage LoRA-style low-rank updates as an efficient tool, our contribution lies in the paradigm shift from in-context injection to parameter-level integration, thereby achieving deeper and more efficient knowledge fusion while reducing online computational costs.**
+
+
+
 #### What’s Included?
 
 - End-to-end implementation of the Parametric RAG pipeline.
