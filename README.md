@@ -37,9 +37,7 @@ Unlike traditional fine-tuning (SFT), which requires significant computational r
 
 **While SFT-based methods also integrate external knowledge into the LLM's parameters via extensive supervised training, they produce a single static set of parameters that do not adapt to the nuances of individual queries. In contrast, our Parametric RAG framework is designed for instance-level adaptation. For each incoming query, we dynamically update the LLM's parameters using the parametric representations of the most relevant documents retrieved from an external corpus.**
 
-This means that the model is effectively reconfigured on-the-fly to better align with the specific information needs of the query—a capability that traditional fine-tuning cannot provide. Such dynamic adaptation not only reduces the computational overhead associated with processing long input contexts but also leverages the model's internal knowledge storage more effectively, leading to improved performance on tasks that require complex reasoning."
-
-
+This means that the model is effectively reconfigured on-the-fly to better align with the specific information needs of the query—a capability that traditional fine-tuning cannot provide. Such dynamic adaptation not only reduces the computational overhead associated with processing long input contexts but also leverages the model's internal knowledge storage more effectively, leading to improved performance on tasks that require complex reasoning.
 
 
 
