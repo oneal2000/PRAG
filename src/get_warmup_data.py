@@ -40,14 +40,22 @@ def load_2wikimultihopqa(data_path):
         for li in fin:
             t = json.loads(li)
             aliases[t["Q_id"]] = t["aliases"]
-    with open(os.path.join(data_path, "queries.jsonl"), "r") as fin:
-        context_data = []
-        for li in fin:
-            context_data.append(json.loads(li))
     new_dataset = []
     for did, data in enumerate(dataset):
-        context = [v[1] for v in context_data[did]["metadata"]["ctxs"]]
-        answer = context_data[did]["metadata"]["answer"]
+        name_to_ctx = {}
+        for ct in data['context']:
+            name_to_ctx[ct[0]] = ct[1]
+        context = []
+        flag = False
+        for fact_name, fact_id in data["supporting_facts"]:
+            if fact_name not in name_to_ctx or fact_id >= len(name_to_ctx[fact_name]):
+                flag = True
+                break
+            context.append(name_to_ctx[fact_name][fact_id])
+        if flag:
+            continue
+        answer = data["answer"]
+        answer = answer if type(answer) == str else answer[0]
         val = {
             "qid": data["_id"], 
             "test_id": did, 

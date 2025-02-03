@@ -254,6 +254,8 @@ def main(args):
                 data["augment"].append(val)
                 final_passages.append(psg)
                 pbar.update(1)
+                if len(data["augment"]) == args.topk:
+                    break
             data["passages"] = final_passages
             ret.append(data)
         with open(output_file, "w") as fout:
