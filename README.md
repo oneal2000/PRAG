@@ -148,11 +148,12 @@ At this point, the input parameter `dataset` refers to the name of the dataset y
 
 
 
-![Methodology](assets/method.png)
-
 
 
 ### Document Parameterizing
+
+
+![Methodology](assets/method.png)
 
 By calling the `src/encode.py` file, you will generate a parameterized representation of the documents (LoRA) for the given dataset. The parameters for this file are as follows:
 
